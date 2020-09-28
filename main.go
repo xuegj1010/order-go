@@ -2,12 +2,16 @@ package main
 
 import (
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/mvc"
+	"order-go/cms/controller"
 	"order-go/datasource"
+	"order-go/repository"
+	"order-go/service"
 )
 
 func main() {
 	app := newApp()
-	mvcHandle()
+	mvcHandle(app)
 	cfg := iris.YAML("./configs/iris.yml")
 	addr := cfg.Other["Addr"].(string)
 	app.Run(
@@ -25,6 +29,12 @@ func newApp() *iris.Application {
 	return app
 }
 
-func mvcHandle() {
-	datasource.NewMysqlEngine()
+func mvcHandle(app *iris.Application) {
+	db := datasource.NewMysqlEngine()
+
+	repo := repository.NewUserRepository(db)
+	userService := service.NewUserService(repo)
+	users := mvc.New(app.Party("/user"))
+	users.Register(userService)
+	users.Handle(&controller.UserController{})
 }
