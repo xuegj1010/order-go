@@ -27,7 +27,7 @@ func newApp() *iris.Application {
 	Mode := cfg.Other["Mode"].(string)
 	app := iris.New()
 	tmpl := iris.HTML("./cms/template", ".html")
-	tmpl.Layout(".common/main_layout.html")
+	tmpl.Layout("common/layout_main.html")
 	app.HandleDir("/static", "./cms/static")
 	app.RegisterView(tmpl)
 	app.Logger().SetLevel(Mode)
@@ -37,9 +37,18 @@ func newApp() *iris.Application {
 func mvcHandle(app *iris.Application) {
 	db := datasource.NewMysqlEngine()
 
+	indexRoute := app.Get("/", indexHandler)
+	indexRoute.Name = "index"
+
 	repo := repository.NewUserRepository(db)
 	userService := service.NewUserService(repo)
 	users := mvc.New(app.Party("/user").Layout("common/layout_user.html"))
 	users.Register(userService)
 	users.Handle(&controller.UserController{})
+}
+
+func indexHandler(ctx iris.Context) {
+	if err := ctx.View("index/index.html"); err != nil {
+		panic(err)
+	}
 }
