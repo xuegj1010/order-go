@@ -77,7 +77,7 @@ func (uc UserController) PostLogin() mvc.Result {
 		Object: map[string]interface{}{
 			"code": 200,
 			"msg":  "登录成功",
-			"data": nil,
+			"data": iris.Map{},
 		},
 	}
 }

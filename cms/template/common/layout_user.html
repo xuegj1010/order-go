@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <!-- Le styles -->
+  <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+
+  {{ part "css" }}
+
+</head>
+
+<body class="gray-bg">
+{{ yield }}
+
+<script src="/static/plugins/jquery-2.1.1.js"></script>
+<script src="/static/bootstrap/bootstrap.min.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
+<script src="/static/js/common.js"></script>
+
+{{ part "js" }}
+
+</body>
+</html>
